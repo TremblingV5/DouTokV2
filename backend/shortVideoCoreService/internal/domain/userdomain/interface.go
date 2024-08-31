@@ -2,6 +2,7 @@ package userdomain
 
 import (
 	"context"
+	"github.com/cloudzenith/DouTok/backend/shortVideoCoreService/internal/domain/dto"
 	"github.com/cloudzenith/DouTok/backend/shortVideoCoreService/internal/domain/entity"
 )
 
