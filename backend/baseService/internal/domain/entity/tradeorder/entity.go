@@ -2,6 +2,7 @@ package tradeorder
 
 import (
 	"github.com/cloudzenith/DouTok/backend/baseService/api"
+	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/entity/deliveryinfo"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/dal/models"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/utils"
 	"math/big"
@@ -24,7 +25,7 @@ type Entity struct {
 	PayableAmount          *big.Float
 	PaidAmount             *big.Float
 	PromotionAmount        *big.Float
-	DeliveryInfoId         int64 // TODO: delivery info
+	DeliveryInfo           *deliveryinfo.Entity
 	DeliveryTime           *time.Time
 	PaymentInfoID          int64
 	PayTime                *time.Time
