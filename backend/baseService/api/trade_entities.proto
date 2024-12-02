@@ -65,7 +65,6 @@ message TradePromotion {
     uint64 promotion_amount = 3; // 优惠金额 单位：分
     string decrption = 4; // 描述
     TradePromotionType promotion_type = 5; // 优惠类型
-    int64 entry_id = 6; // 优惠总类id
     int64 account_id = 7; // 所属账户id
 }
 
@@ -107,7 +106,7 @@ message TimeoutInfo {
 }
 
 enum CloseType {
-    UNDEFINED_CT = 0; // 默认值
+    UNDEFINED_CT = 0; // 默认值 未关闭
     TIMEOUT_CT = 1; // 超时关闭
     BUYER_CT = 2; // 买家关闭
     SELLER_CT = 3; // 卖家关闭
@@ -148,14 +147,13 @@ message PaymentInfo {
     string payment_no = 3; // 外部平台支付单号
     PayScene pay_scene = 4; // 支付场景
     uint64 paid_amount = 5; // 支付金额 单位：分
-    PayPhase pay_phase = 6; // 支付阶段
-    PayChannel pay_channel = 7; // 支付渠道
-    PayStatus pay_status = 8; // 支付状态
-    int64 create_time = 9; // 创建时间
-    int64 pay_time = 10; // 支付时间
-    int64 close_time = 11; // 关闭时间
-    int64 success_time = 12; // 成功时间
-    int64 update_time = 13; // 更新时间
+    PayChannel pay_channel = 6; // 支付渠道
+    PayStatus pay_status = 7; // 支付状态
+    int64 create_time = 8; // 创建时间
+    int64 pay_time = 9; // 支付时间
+    int64 close_time = 10; // 关闭时间
+    int64 success_time = 11; // 成功时间
+    int64 update_time = 12; // 更新时间
 }
 
 enum TradeOrderRelation {

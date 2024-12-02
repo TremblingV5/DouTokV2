@@ -1,0 +1,80 @@
+syntax = "proto3";
+package api;
+
+option go_package = "github.com/cloudzenith/DouTok/...;api";
+
+import "base.proto";
+import "buf/validate/validate.proto";
+
+service DeliveryInfoService {
+   rpc CreateDeliveryInfo(CreateDeliveryInfoRequest) returns (CreateDeliveryInfoResponse); // 创建发货信息
+   rpc UpdateDeliveryInfo(UpdateSourceDeliveryInfoRequest) returns (UpdateSourceDeliveryInfoResponse); // 更新发货信息
+   rpc QueryById(QueryByIdRequest) returns (QueryByIdResponse); // 根据id查询发货信息
+   rpc QueryByAccountId(QueryByAccountIdRequest) returns (QueryByAccountIdResponse); // 根据账户id查询发货信息
+   rpc DeleteDeliveryInfo(DeleteDeliveryInfoRequest) returns (DeleteDeliveryInfoResponse); // 删除发货信息
+}
+
+message SourceDeliveryInfo {
+    int64 id = 1; // 发货信息id
+    int64 account_id = 2; // 账户id
+    string receiver_name = 3; // 收货人姓名
+    string receiver_phone = 4; // 收货人电话
+    string receiver_address = 5; // 收货人地址
+    map<string, string> extra = 6; // 额外信息
+}
+
+message CreateDeliveryInfoRequest {
+   int64 account_id = 1; // 账户id
+   string receiver_name = 2; // 收货人姓名
+   string receiver_phone = 3; // 收货人电话
+   string receiver_address = 4; // 收货人地址
+   map<string, string> extra = 5; // 额外信息
+}
+
+message CreateDeliveryInfoResponse {
+    api.Metadata meta = 1;
+    SourceDeliveryInfo delivery_info = 2;
+}
+
+message UpdateSourceDeliveryInfoRequest {
+    int64 id = 1; // 发货信息id
+    int64 account_id = 2; // 账户id
+    string receiver_name = 3; // 收货人姓名
+    string receiver_phone = 4; // 收货人电话
+    string receiver_address = 5; // 收货人地址
+    map<string, string> extra = 6; // 额外信息
+}
+
+message UpdateSourceDeliveryInfoResponse {
+    api.Metadata meta = 1;
+    SourceDeliveryInfo delivery_info = 2;
+}
+
+message QueryByIdRequest {
+    int64 id = 1; // 发货信息id
+}
+
+message QueryByIdResponse {
+    api.Metadata meta = 1;
+    SourceDeliveryInfo delivery_info = 2;
+}
+
+message QueryByAccountIdRequest {
+    int64 account_id = 1; // 账户id
+    api.PaginationRequest pagination = 2;
+}
+
+message QueryByAccountIdResponse {
+    api.Metadata meta = 1;
+    repeated SourceDeliveryInfo delivery_info_list = 2;
+    api.PaginationResponse pagination = 3;
+}
+
+message DeleteDeliveryInfoRequest {
+    int64 id = 1; // 发货信息id
+    int64 account_id = 2; // 账户id
+}
+
+message DeleteDeliveryInfoResponse {
+    api.Metadata meta = 1;
+}

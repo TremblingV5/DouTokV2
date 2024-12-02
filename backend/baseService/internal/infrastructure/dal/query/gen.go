@@ -16,44 +16,74 @@ import (
 )
 
 var (
-	Q        = new(Query)
-	Account  *account
-	File     *file
-	Template *template
+	Q              = new(Query)
+	Account        *account
+	DeliveryInfo   *deliveryInfo
+	File           *file
+	PaymentInfo    *paymentInfo
+	Promotion      *promotion
+	RefundOrder    *refundOrder
+	Template       *template
+	TradeOrder     *tradeOrder
+	TradePromotion *tradePromotion
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	Account = &Q.Account
+	DeliveryInfo = &Q.DeliveryInfo
 	File = &Q.File
+	PaymentInfo = &Q.PaymentInfo
+	Promotion = &Q.Promotion
+	RefundOrder = &Q.RefundOrder
 	Template = &Q.Template
+	TradeOrder = &Q.TradeOrder
+	TradePromotion = &Q.TradePromotion
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:       db,
-		Account:  newAccount(db, opts...),
-		File:     newFile(db, opts...),
-		Template: newTemplate(db, opts...),
+		db:             db,
+		Account:        newAccount(db, opts...),
+		DeliveryInfo:   newDeliveryInfo(db, opts...),
+		File:           newFile(db, opts...),
+		PaymentInfo:    newPaymentInfo(db, opts...),
+		Promotion:      newPromotion(db, opts...),
+		RefundOrder:    newRefundOrder(db, opts...),
+		Template:       newTemplate(db, opts...),
+		TradeOrder:     newTradeOrder(db, opts...),
+		TradePromotion: newTradePromotion(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Account  account
-	File     file
-	Template template
+	Account        account
+	DeliveryInfo   deliveryInfo
+	File           file
+	PaymentInfo    paymentInfo
+	Promotion      promotion
+	RefundOrder    refundOrder
+	Template       template
+	TradeOrder     tradeOrder
+	TradePromotion tradePromotion
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:       db,
-		Account:  q.Account.clone(db),
-		File:     q.File.clone(db),
-		Template: q.Template.clone(db),
+		db:             db,
+		Account:        q.Account.clone(db),
+		DeliveryInfo:   q.DeliveryInfo.clone(db),
+		File:           q.File.clone(db),
+		PaymentInfo:    q.PaymentInfo.clone(db),
+		Promotion:      q.Promotion.clone(db),
+		RefundOrder:    q.RefundOrder.clone(db),
+		Template:       q.Template.clone(db),
+		TradeOrder:     q.TradeOrder.clone(db),
+		TradePromotion: q.TradePromotion.clone(db),
 	}
 }
 
@@ -67,24 +97,42 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:       db,
-		Account:  q.Account.replaceDB(db),
-		File:     q.File.replaceDB(db),
-		Template: q.Template.replaceDB(db),
+		db:             db,
+		Account:        q.Account.replaceDB(db),
+		DeliveryInfo:   q.DeliveryInfo.replaceDB(db),
+		File:           q.File.replaceDB(db),
+		PaymentInfo:    q.PaymentInfo.replaceDB(db),
+		Promotion:      q.Promotion.replaceDB(db),
+		RefundOrder:    q.RefundOrder.replaceDB(db),
+		Template:       q.Template.replaceDB(db),
+		TradeOrder:     q.TradeOrder.replaceDB(db),
+		TradePromotion: q.TradePromotion.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Account  IAccountDo
-	File     IFileDo
-	Template ITemplateDo
+	Account        IAccountDo
+	DeliveryInfo   IDeliveryInfoDo
+	File           IFileDo
+	PaymentInfo    IPaymentInfoDo
+	Promotion      IPromotionDo
+	RefundOrder    IRefundOrderDo
+	Template       ITemplateDo
+	TradeOrder     ITradeOrderDo
+	TradePromotion ITradePromotionDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Account:  q.Account.WithContext(ctx),
-		File:     q.File.WithContext(ctx),
-		Template: q.Template.WithContext(ctx),
+		Account:        q.Account.WithContext(ctx),
+		DeliveryInfo:   q.DeliveryInfo.WithContext(ctx),
+		File:           q.File.WithContext(ctx),
+		PaymentInfo:    q.PaymentInfo.WithContext(ctx),
+		Promotion:      q.Promotion.WithContext(ctx),
+		RefundOrder:    q.RefundOrder.WithContext(ctx),
+		Template:       q.Template.WithContext(ctx),
+		TradeOrder:     q.TradeOrder.WithContext(ctx),
+		TradePromotion: q.TradePromotion.WithContext(ctx),
 	}
 }
 

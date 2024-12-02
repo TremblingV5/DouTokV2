@@ -8,6 +8,12 @@ database:
     - account
     - template
     - file
+    - trade_order
+    - delivery_info
+    - payment_info
+    - refund_order
+    - promotion
+    - trade_promotion
   mode:
     - WithDefaultQuery
     - WithoutContext

@@ -9,16 +9,19 @@ package server
 import (
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/applications/accountapp"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/applications/authapp"
+	"github.com/cloudzenith/DouTok/backend/baseService/internal/applications/deliveryinfoapp"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/applications/fileapp"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/applications/postapp"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/innerservice/filerepohelper"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/service/accountservice"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/service/authservice"
+	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/service/deliveryinfoservice"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/service/fileservice"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/domain/service/postservice"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/adapters/thirdmsgadapter"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/redis/verificationcoderedis"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/repositories/accountrepo"
+	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/repositories/deliveryinforepo"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/repositories/filerepo"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/repositories/miniorepo"
 	"github.com/cloudzenith/DouTok/backend/baseService/internal/infrastructure/repositories/templaterepo"
@@ -54,4 +57,11 @@ func initFileApplication(fileTableShardingConfig filerepohelper.FileTableShardin
 	fileService := fileservice.New(persistRepository, miniorepoPersistRepository, fileTableShardingConfig)
 	fileApplication := fileapp.New(fileService)
 	return fileApplication
+}
+
+func initDeliveryInfoApplication() *deliveryinfoapp.Application {
+	repository := deliveryinforepo.New()
+	service := deliveryinfoservice.New(repository)
+	application := deliveryinfoapp.New(service)
+	return application
 }

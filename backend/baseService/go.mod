@@ -4,6 +4,7 @@ go 1.22.2
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.34.2-20240508200655-46a4cf4ba109.2
+	github.com/TremblingV5/box v0.0.7
 	github.com/bufbuild/protovalidate-go v0.6.3
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/bytedance/sonic v1.12.3
@@ -29,7 +30,6 @@ require (
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
-	github.com/TremblingV5/box v0.0.7 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/apache/rocketmq-client-go/v2 v2.1.2 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect

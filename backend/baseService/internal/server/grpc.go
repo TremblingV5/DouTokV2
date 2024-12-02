@@ -41,5 +41,6 @@ func NewGRPCServer(options ...Option) *grpc.Server {
 	api.RegisterAuthServiceServer(srv, initAuthApplication())
 	api.RegisterPostServiceServer(srv, initPostApplication())
 	api.RegisterFileServiceServer(srv, initFileApplication(params.fileTableShardingConfig))
+	api.RegisterDeliveryInfoServiceServer(srv, initDeliveryInfoApplication())
 	return srv
 }
