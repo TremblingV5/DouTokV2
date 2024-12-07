@@ -9,6 +9,39 @@ import (
 	"time"
 )
 
+type DeliveryInfo struct {
+	DeliveryType    api.DeliveryType
+	DeliveryCompany api.DeliveryCompany
+	DeliveryNo      string
+	DeliveryInfoId  int64
+	ReceiverName    string
+	ReceiverPhone   string
+	ReceiverAddress string
+	Extra           map[string]string
+}
+
+func (d *DeliveryInfo) NewWithSourceDeliveryInfo(info *deliveryinfo.Entity) *DeliveryInfo {
+	return &DeliveryInfo{
+		DeliveryInfoId:  info.ID,
+		ReceiverName:    info.ReceiverName,
+		ReceiverPhone:   info.ReceiverPhone,
+		ReceiverAddress: info.ReceiverAddress,
+		Extra:           info.Extra,
+	}
+}
+
+func (d *DeliveryInfo) ToPB() *api.DeliveryInfo {
+	return &api.DeliveryInfo{
+		DeliveryType:    d.DeliveryType,
+		DeliveryCompany: d.DeliveryCompany,
+		DeliveryNo:      d.DeliveryNo,
+		ReceiverName:    d.ReceiverName,
+		ReceiverMobile:  d.ReceiverPhone,
+		ReceiverAddress: d.ReceiverAddress,
+		Extra:           d.Extra,
+	}
+}
+
 type Entity struct {
 	ID                     int64
 	BizType                api.TradeBizType
@@ -25,7 +58,7 @@ type Entity struct {
 	PayableAmount          *big.Float
 	PaidAmount             *big.Float
 	PromotionAmount        *big.Float
-	DeliveryInfo           *deliveryinfo.Entity
+	DeliveryInfo           *DeliveryInfo
 	DeliveryTime           *time.Time
 	PaymentInfoID          int64
 	PayTime                *time.Time
@@ -72,7 +105,7 @@ func (e *Entity) ToPB() *api.TradeOrder {
 		PaidAmount:      utils.Money2Ui64(e.PaidAmount),
 		PromotionAmount: utils.Money2Ui64(e.PromotionAmount),
 		//Promotions: []*api.Promotion{}{},
-		DeliveryInfo: &api.DeliveryInfo{},
+		DeliveryInfo: e.DeliveryInfo.ToPB(),
 		CreateTime:   e.CreateTime.UnixMilli(),
 		PayTime:      e.PayTime.UnixMilli(),
 		DeliveryTime: e.DeliveryTime.UnixMilli(),

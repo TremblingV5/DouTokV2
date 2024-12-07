@@ -141,19 +141,22 @@ enum PayStatus {
     CLOSED_PS = 3; // 已关闭
 }
 
-message PaymentInfo {
-    int64 id = 1; // 支付信息id
+enum CalculateType {
+    ADD_AMOUNT = 0; // 增加需要支付的金额
+    SUB_AMOUNT = 1; // 减少需要支付的金额
+}
+
+// 费用明细
+message FeeInfo {
+    int64 id = 1; // 费用明细id
     int64 order_id = 2; // 所属交易单id
-    string payment_no = 3; // 外部平台支付单号
-    PayScene pay_scene = 4; // 支付场景
-    uint64 paid_amount = 5; // 支付金额 单位：分
-    PayChannel pay_channel = 6; // 支付渠道
-    PayStatus pay_status = 7; // 支付状态
+    CalculateType calculate_type = 3; // 计算类型
+    string name = 4; // 费用名称
+    string description = 5; // 费用描述
+    uint64 amount = 6; // 费用金额 单位：厘
+    map<string, string> extra = 7; // 额外信息
     int64 create_time = 8; // 创建时间
-    int64 pay_time = 9; // 支付时间
-    int64 close_time = 10; // 关闭时间
-    int64 success_time = 11; // 成功时间
-    int64 update_time = 12; // 更新时间
+    int64 update_time = 9; // 更新时间
 }
 
 enum TradeOrderRelation {
@@ -223,7 +226,7 @@ message TradeOrder {
     string close_reason = 24; // 关闭原因
 
     repeated TradeOrder sub_order = 25; // 子订单
-    repeated PaymentInfo payments = 26; // 支付信息
+    repeated FeeInfo payments = 26; // 支付信息
 
     map<string, string> extra = 27; // 额外信息
 

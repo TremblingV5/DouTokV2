@@ -8,6 +8,7 @@ import "trade_entities.proto";
 import "buf/validate/validate.proto";
 
 service PayService {
+    rpc CreateFeeList(CreateFeeListRequest) returns (CreateFeeListResponse); // 创建费用清单
     rpc Pay(PayRequest) returns (PayResponse); // 支付
 }
 
@@ -17,4 +18,21 @@ message PayRequest {
 
 message PayResponse {
 
+}
+
+message SourceFee {
+    CalculateType calculate_type = 1; // 计算类型
+    string name = 2; // 费用名称
+    string description = 3; // 费用描述
+    uint64 amount = 4; // 费用金额，单位：厘
+    map<string, string> extra = 5; // 额外信息
+}
+
+message CreateFeeListRequest {
+    int64 trade_order_id = 1; // 交易单id
+    repeated SourceFee source_fee_list = 2; // 原始费用列表
+}
+
+message CreateFeeListResponse {
+    api.Metadata meta = 1;
 }
